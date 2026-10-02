@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tugas 2 JavaScript</title>
+</head>
+<body>
+
+    <h2>Input Data Pegawai</h2>
+
+    Nama Pegawai:
+    <input type="text" id="nama">
+    <br><br>
+
+    Umur:
+    <input type="number" id="umur">
+    <br><br>
+
+    Jabatan:
+    <select id="jabatan">
+        <option value="Manajer">Manajer</option>
+        <option value="Asisten Manajer">Asisten Manajer</option>
+        <option value="Staff">Staff</option>
+    </select>
+    <br><br>
+
+    Status:
+    <select id="status">
+        <option value="Menikah">Menikah</option>
+        <option value="Belum Menikah">Belum Menikah</option>
+    </select>
+    <br><br>
+
+    <button onclick="hitungGaji()">Tampilkan Data</button>
+
+    <br><br>
+
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>Nama Pegawai</th>
+                <th>Umur</th>
+                <th>Jabatan</th>
+                <th>Status</th>
+                <th>Gaji Pokok</th>
+                <th>Tunjangan Jabatan</th>
+                <th>BPJS</th>
+                <th>Tunjangan Keluarga</th>
+            </tr>
+        </thead>
+
+        <tbody id="dataPegawai">
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <th colspan="4">Total Gaji</th>
+                <th colspan="4" id="totalGaji">Rp 0</th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+    <script>
+
+        function hitungGaji() {
+
+            // Mengambil data dari input
+            let nama = document.getElementById("nama").value;
+            let umur = document.getElementById("umur").value;
+            let jabatan = document.getElementById("jabatan").value;
+            let status = document.getElementById("status").value;
+
+    
+            let gajiPokok;
+
+            if (jabatan == "Manajer") {
+                gajiPokok = 15000000;
+            } else if (jabatan == "Asisten Manajer") {
+                gajiPokok = 10000000;
+            } else {
+                gajiPokok = 5000000;
+            }
+
+
+            let tunjanganJabatan = 15 / 100 * gajiPokok;
+
+  
+            let bpjs = 10 / 100 * gajiPokok;
+
+        
+            let tunjanganKeluarga = status == "Menikah"
+                ? 20 / 100 * gajiPokok
+                : 0;
+
+            // Menghitung total gaji
+            let totalGaji = gajiPokok +
+                            tunjanganJabatan +
+                            bpjs +
+                            tunjanganKeluarga;
+
+            document.getElementById("dataPegawai").innerHTML =
+                "<tr>" +
+                "<td>" + nama + "</td>" +
+                "<td>" + umur + " tahun</td>" +
+                "<td>" + jabatan + "</td>" +
+                "<td>" + status + "</td>" +
+                "<td>Rp " + gajiPokok.toLocaleString("id-ID") + "</td>" +
+                "<td>Rp " + tunjanganJabatan.toLocaleString("id-ID") + "</td>" +
+                "<td>Rp " + bpjs.toLocaleString("id-ID") + "</td>" +
+                "<td>Rp " + tunjanganKeluarga.toLocaleString("id-ID") + "</td>" +
+                "</tr>";
+
+            document.getElementById("totalGaji").innerHTML =
+                "Rp " + totalGaji.toLocaleString("id-ID");
+        }
+
+    </script>
+
+</body>
+</html>
