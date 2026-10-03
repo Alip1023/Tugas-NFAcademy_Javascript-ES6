@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manajemen Produk Toko</title>
+</head>
+<body>
+
+    <h2>Manajemen Produk Toko</h2>
+
+    <h3>Tambah Produk</h3>
+
+    Nama Produk:
+    <input type="text" id="nama">
+
+    <br><br>
+
+    Harga:
+    <input type="number" id="harga">
+
+    <br><br>
+
+    Stok:
+    <input type="number" id="stok">
+
+    <br><br>
+
+    <button onclick="tambahProdukInput()">Tambah Produk</button>
+
+    <h3>Hapus Produk</h3>
+
+    ID Produk:
+    <input type="number" id="idHapus">
+
+    <button onclick="hapusProdukInput()">Hapus Produk</button>
+
+    <h3>Daftar Produk</h3>
+
+    <div id="daftarProduk"></div>
+
+
+    <script>
+
+        // Array yang menyimpan daftar produk toko
+        let produkToko = [
+            {id: 1, nama: "Laptop", harga: 7000000, stok: 5},
+            {id: 2, nama: "Mouse", harga: 200000, stok: 10},
+            {id: 3, nama: "Keyboard", harga: 350000, stok: 7}
+        ];
+
+
+        // Fungsi untuk menambahkan produk baru
+        function tambahProduk(nama, harga, stok) {
+
+            // Membuat ID baru berdasarkan ID terbesar
+            let idBaru = produkToko.length + 1;
+
+            let produkBaru = {
+                id: idBaru,
+                nama: nama,
+                harga: harga,
+                stok: stok
+            };
+
+            produkToko.push(produkBaru);
+
+            tampilkanProduk();
+        }
+
+
+        // Fungsi untuk menghapus produk berdasarkan ID
+        function hapusProduk(id) {
+
+            produkToko = produkToko.filter(function(produk) {
+                return produk.id != id;
+            });
+
+            tampilkanProduk();
+        }
+
+
+        // Fungsi untuk menampilkan daftar produk
+        function tampilkanProduk() {
+
+            let hasil = "<table border='1' cellpadding='8'>";
+
+            hasil += "<tr>";
+            hasil += "<th>ID</th>";
+            hasil += "<th>Nama Produk</th>";
+            hasil += "<th>Harga</th>";
+            hasil += "<th>Stok</th>";
+            hasil += "</tr>";
+
+            for (let i = 0; i < produkToko.length; i++) {
+
+                hasil += "<tr>";
+                hasil += "<td>" + produkToko[i].id + "</td>";
+                hasil += "<td>" + produkToko[i].nama + "</td>";
+                hasil += "<td>Rp " + produkToko[i].harga.toLocaleString("id-ID") + "</td>";
+                hasil += "<td>" + produkToko[i].stok + "</td>";
+                hasil += "</tr>";
+            }
+
+            hasil += "</table>";
+
+            document.getElementById("daftarProduk").innerHTML = hasil;
+        }
+
+
+        // Fungsi untuk mengambil input dan menambahkan produk
+        function tambahProdukInput() {
+
+            let nama = document.getElementById("nama").value;
+            let harga = Number(document.getElementById("harga").value);
+            let stok = Number(document.getElementById("stok").value);
+
+            tambahProduk(nama, harga, stok);
+
+            // Mengosongkan input setelah produk ditambahkan
+            document.getElementById("nama").value = "";
+            document.getElementById("harga").value = "";
+            document.getElementById("stok").value = "";
+        }
+
+
+        // Fungsi untuk mengambil ID dan menghapus produk
+        function hapusProdukInput() {
+
+            let id = Number(document.getElementById("idHapus").value);
+
+            hapusProduk(id);
+
+            document.getElementById("idHapus").value = "";
+        }
+
+
+        // Menampilkan produk saat halaman pertama kali dibuka
+        tampilkanProduk();
+
+    </script>
+
+</body>
+</html>
