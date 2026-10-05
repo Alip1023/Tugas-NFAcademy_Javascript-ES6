@@ -1,0 +1,189 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Produk</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #ddd;
+        }
+
+        .hapus {
+            background-color: #ff5555;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Manajemen Produk Toko</h2>
+
+    <div class="form">
+        <input type="text" id="namaProduk" placeholder="Nama Produk">
+        <input type="number" id="hargaProduk" placeholder="Harga">
+        <input type="number" id="stokProduk" placeholder="Stok">
+
+        <button id="tambahBtn">Tambah Produk</button>
+    </div>
+
+    <h3>Daftar Produk</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nama Produk</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+
+        <tbody id="daftarProduk">
+        </tbody>
+    </table>
+
+
+    <script>
+
+        // Data produk awal minimal 5
+        let produk = [
+            { id: 1, nama: "Laptop", harga: 7000000, stok: 5 },
+            { id: 2, nama: "Mouse", harga: 200000, stok: 10 },
+            { id: 3, nama: "Keyboard", harga: 350000, stok: 7 },
+            { id: 4, nama: "Headset", harga: 300000, stok: 8 },
+            { id: 5, nama: "Webcam", harga: 500000, stok: 4 }
+        ];
+
+
+        // Rest Parameter
+        function tambahData(...dataBaru) {
+            produk = [...produk, ...dataBaru];
+        }
+
+
+        // Menampilkan semua produk
+        function tampilkanProduk() {
+
+            let daftar = document.getElementById("daftarProduk");
+
+            daftar.innerHTML = "";
+
+            produk.forEach(function(item) {
+
+                // Destructuring
+                let { id, nama, harga, stok } = item;
+
+                daftar.innerHTML += `
+                    <tr>
+                        <td>${id}</td>
+                        <td>${nama}</td>
+                        <td>Rp ${harga.toLocaleString("id-ID")}</td>
+                        <td>${stok}</td>
+                        <td>
+                            <button class="hapus" onclick="hapusProduk(${id})">
+                                Hapus
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+
+        // Menghapus produk
+        function hapusProduk(id) {
+
+            produk = produk.filter(function(item) {
+                return item.id !== id;
+            });
+
+            tampilkanProduk();
+        }
+
+
+        // Event Listener untuk tombol tambah
+        document.getElementById("tambahBtn").addEventListener("click", function() {
+
+            let nama = document.getElementById("namaProduk").value;
+            let harga = Number(document.getElementById("hargaProduk").value);
+            let stok = Number(document.getElementById("stokProduk").value);
+
+            if (nama === "" || harga === 0 || stok === 0) {
+                alert("Data produk belum lengkap!");
+                return;
+            }
+
+            // Membuat ID baru
+            let idBaru = produk.length + 1;
+
+            let produkBaru = {
+                id: idBaru,
+                nama: nama,
+                harga: harga,
+                stok: stok
+            };
+
+            // Spread Operator digunakan melalui fungsi tambahData
+            tambahData(produkBaru);
+
+            tampilkanProduk();
+
+            // Mengosongkan input
+            document.getElementById("namaProduk").value = "";
+            document.getElementById("hargaProduk").value = "";
+            document.getElementById("stokProduk").value = "";
+        });
+
+
+        // Menampilkan produk pertama kali
+        tampilkanProduk();
+
+    </script>
+
+</body>
+</html>
+```
